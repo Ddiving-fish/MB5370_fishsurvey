@@ -28,4 +28,11 @@ catch_data |>
 
 #Load metadata
 metadata <- read_csv("data/estuary_metadata.csv")
-#
+#Fix site name in metadata and catch_data
+catch_data <- catch_data |>
+  mutate(
+    site = str_to_lower(str_trim(site)),
+    site = str_replace_all(site, " ", "_")) |> 
+  # Convert all chr to fct
+  mutate(across(where(is.character), as_factor)
+  )
